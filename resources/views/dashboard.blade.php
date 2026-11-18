@@ -33,7 +33,7 @@
                     <h2 class="font-heading text-base font-bold text-paw-darkest">Belum ada hewan peliharaan</h2>
                     <p class="text-xs text-paw-medium mt-0.5">Tambahkan profil kucing atau anjing pertamamu untuk mulai mencatat perawatan.</p>
                 </div>
-                <a href="#" class="inline-flex items-center gap-2 bg-paw-medium hover:bg-paw-dark text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shrink-0">
+                <a href="{{ route('pets.create') }}" class="inline-flex items-center gap-2 bg-paw-medium hover:bg-paw-dark text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shrink-0">
                     <span>+ Tambah Hewan</span>
                 </a>
             </div>

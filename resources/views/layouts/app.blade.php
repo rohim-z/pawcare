@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard') - PawCare</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-terang.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,8 +59,8 @@
                         <span>Dashboard</span>
                     </a>
 
-                    <a href="#"
-                       class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:bg-white/10 transition">
+                    <a href="{{ route('pets.index') }}"
+                        class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-sm font-medium transition {{ request()->routeIs('pets.*') ? 'bg-paw-light text-paw-darkest font-semibold shadow-sm' : 'text-white/90 hover:bg-white/10' }}">
                         <i data-lucide="paw-print" class="w-4 h-4 shrink-0"></i>
                         <span>My Pets</span>
                     </a>
