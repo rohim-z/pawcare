@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PetController;
 
 // Jika user membuka halaman utama langsung diarahkan ke halaman login
 Route::get('/', function () {
@@ -26,5 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->middleware('auth')
         ->name('dashboard');
+
+    // my pets
+    Route::resource('pets', PetController::class)->middleware('auth');
 
 });
