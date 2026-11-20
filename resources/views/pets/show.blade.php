@@ -121,9 +121,9 @@
         </div>
     </div>
 
-    <!-- 3. Baris Tengah: Jadwal Perawatan Terbaru & Riwayat Medis Terbaru -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-        <!-- Jadwal Perawatan Terbaru -->
+    <!-- 3 kartu aktivitas & riwayat -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- jadwal perawatan terbaru -->
         <div class="bg-white rounded-2xl border border-paw-medium p-5 flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-heading text-base font-bold text-paw-darkest">Jadwal perawatan terbaru</h2>
@@ -145,11 +145,11 @@
                                 </div>
                                 <div class="truncate">
                                     <p class="text-xs font-bold text-paw-darkest truncate">{{ $schedule->title }}</p>
-                                    <p class="text-[11px] text-paw-medium">{{ \Carbon\Carbon::parse($schedule->scheduled_date)->translatedFormat('d M Y') }}</p>
+                                    <p class="text-[11px] text-paw-medium">{{ $schedule->category ?? 'Perawatan' }}</p>
                                 </div>
                             </div>
-                            <span class="text-[11px] font-semibold px-3 py-1 rounded-full shrink-0 ml-2 {{ $schedule->status === 'completed' ? 'bg-paw-sage text-paw-darkest' : 'bg-white text-paw-darkest border border-paw-medium/30' }}">
-                                {{ $schedule->status === 'completed' ? 'Selesai' : 'Terjadwal' }}
+                            <span class="text-[11px] font-semibold text-paw-darkest shrink-0 ml-2">
+                                {{ \Carbon\Carbon::parse($schedule->scheduled_date)->translatedFormat('d M Y') }}
                             </span>
                         </div>
                     @endforeach
@@ -157,11 +157,14 @@
             @endif
         </div>
 
-        <!-- Riwayat Medis Terbaru -->
+        <!-- riwayat medis terbaru -->
         <div class="bg-white rounded-2xl border border-paw-medium p-5 flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-heading text-base font-bold text-paw-darkest">Riwayat medis terbaru</h2>
-                <span class="text-[11px] font-medium text-paw-medium">{{ $pet->healthRecords->count() }} catatan</span>
+                <a href="{{ route('health-records.create', ['pet_id' => $pet->id]) }}"
+                   class="text-xs font-semibold text-paw-dark hover:text-paw-darkest">
+                    + Tambah
+                </a>
             </div>
 
             @if($pet->healthRecords->isEmpty())
@@ -171,43 +174,60 @@
                 </div>
             @else
                 <div class="space-y-2.5">
-                    @foreach($pet->healthRecords->sortByDesc('id')->take(4) as $record)
+                    @foreach($pet->healthRecords->sortByDesc('record_date')->take(4) as $record)
                         <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-paw-light/65">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-8 h-8 rounded-full bg-paw-sage flex items-center justify-center text-paw-darkest shrink-0">
                                     <i data-lucide="activity" class="w-4 h-4"></i>
                                 </div>
                                 <div class="truncate">
-                                    <p class="text-xs font-bold text-paw-darkest truncate">{{ $record->diagnosis ?? $record->title ?? 'Pemeriksaan' }}</p>
-                                    <p class="text-[11px] text-paw-medium truncate">{{ $record->notes ?? 'Catatan pemeriksaan rutin' }}</p>
+                                    <p class="text-xs font-bold text-paw-darkest truncate">{{ $record->title }}</p>
+                                    <p class="text-[11px] text-paw-medium truncate">
+                                        {{ $record->record_type }}{{ $record->vet_name ? ' • ' . $record->vet_name : '' }}
+                                    </p>
                                 </div>
                             </div>
                             <span class="text-[11px] font-semibold text-paw-darkest shrink-0 ml-2">
-                                {{ \Carbon\Carbon::parse($record->checkup_date ?? $record->created_at)->translatedFormat('d M Y') }}
+                                {{ \Carbon\Carbon::parse($record->record_date)->translatedFormat('d M Y') }}
                             </span>
                         </div>
                     @endforeach
                 </div>
             @endif
         </div>
-    </div>
 
-    <!-- 4. Baris Bawah: Log Berat Badan (Placeholder) & Pengeluaran Terakhir -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <!-- Container Log Berat Badan -->
+        <!-- log berat badan -->
         <div class="bg-white rounded-2xl border border-paw-medium p-5 flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-heading text-base font-bold text-paw-darkest">Log berat badan</h2>
                 <span class="text-[11px] font-medium text-paw-medium">{{ $pet->weightLogs->count() }} catatan terakhir</span>
             </div>
 
-            <div class="flex-1 flex flex-col items-center justify-center text-center py-8 bg-paw-light/40 rounded-xl">
-                <p class="text-xs font-semibold text-paw-darkest">Belum ada log berat badan</p>
-                <p class="text-[11px] text-paw-medium mt-0.5">Grafik dan riwayat berat badan akan tampil setelah fitur Growth aktif.</p>
-            </div>
+            @if($pet->weightLogs->isEmpty())
+                <div class="flex-1 flex flex-col items-center justify-center text-center py-8 bg-paw-light/40 rounded-xl">
+                    <p class="text-xs font-semibold text-paw-darkest">Belum ada log berat badan</p>
+                    <p class="text-[11px] text-paw-medium mt-0.5">Grafik dan riwayat berat badan akan tampil setelah fitur Growth aktif.</p>
+                </div>
+            @else
+                <div class="space-y-2.5">
+                    @foreach($pet->weightLogs->sortByDesc('recorded_at')->take(4) as $log)
+                        <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-paw-light/65">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-8 h-8 rounded-full bg-paw-sage flex items-center justify-center text-paw-darkest shrink-0">
+                                    <i data-lucide="scale" class="w-4 h-4"></i>
+                                </div>
+                                <p class="text-xs font-bold text-paw-darkest">{{ $log->weight }} kg</p>
+                            </div>
+                            <span class="text-[11px] font-semibold text-paw-darkest shrink-0 ml-2">
+                                {{ \Carbon\Carbon::parse($log->recorded_at)->translatedFormat('d M Y') }}
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
-        <!-- Pengeluaran Terakhir -->
+        <!-- pengeluaran terakhir -->
         <div class="bg-white rounded-2xl border border-paw-medium p-5 flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-heading text-base font-bold text-paw-darkest">Pengeluaran terakhir</h2>
@@ -221,20 +241,18 @@
                 </div>
             @else
                 <div class="space-y-2.5">
-                    @foreach($pet->expenses->sortByDesc('id')->take(5) as $expense)
+                    @foreach($pet->expenses->sortByDesc('expense_date')->take(4) as $expense)
                         <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-paw-light/65">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-8 h-8 rounded-full bg-paw-sage flex items-center justify-center text-paw-darkest shrink-0">
                                     <i data-lucide="wallet" class="w-4 h-4"></i>
                                 </div>
                                 <div class="truncate">
-                                    <p class="text-xs font-bold text-paw-darkest truncate">{{ $expense->title ?? 'Pengeluaran' }}</p>
-                                    <p class="text-[11px] text-paw-medium">
-                                        {{ $expense->category ?? 'Umum' }} • {{ \Carbon\Carbon::parse($expense->expense_date ?? $expense->created_at)->translatedFormat('d M') }}
-                                    </p>
+                                    <p class="text-xs font-bold text-paw-darkest truncate">{{ $expense->title ?? $expense->category }}</p>
+                                    <p class="text-[11px] text-paw-medium">{{ $expense->category }}</p>
                                 </div>
                             </div>
-                            <span class="text-xs font-bold text-paw-darkest shrink-0 ml-2">
+                            <span class="text-[11px] font-bold text-paw-darkest shrink-0 ml-2">
                                 Rp {{ number_format($expense->amount, 0, ',', '.') }}
                             </span>
                         </div>

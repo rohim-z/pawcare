@@ -16,7 +16,7 @@
     </div>
 
     @if ($errors->any())
-        <div class="mb-6 max-w-5xl bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-xl text-xs">
+        <div class="mb-6 bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-xl text-xs">
             <ul class="list-disc list-inside space-y-1">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -29,10 +29,10 @@
         @csrf
         @method('PUT')
 
-        <div class="max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="flex flex-col lg:flex-row items-start gap-8">
             <!-- Sisi Kiri: Kotak Preview Foto & Ringkasan Real-Time -->
-            <div class="lg:col-span-4 flex flex-col items-start">
-                <div class="w-full max-w-[270px] aspect-square rounded-3xl bg-paw-sage/85 border border-paw-medium/30 overflow-hidden flex items-center justify-center">
+            <div class="w-full sm:w-[270px] shrink-0 flex flex-col items-start">
+                <div class="w-full aspect-square rounded-3xl bg-paw-sage/85 border border-paw-medium/30 overflow-hidden flex items-center justify-center">
                     <img id="photoPreviewImg"
                          src="{{ $pet->photo ? asset('storage/' . $pet->photo) : asset('images/default.png') }}"
                          alt="{{ $pet->name }}"
@@ -62,7 +62,7 @@
             </div>
 
             <!-- Sisi Kanan: Form Input Terbuka -->
-            <div class="lg:col-span-8 space-y-5">
+            <div class="flex-1 w-full space-y-5">
                 <!-- Nama Hewan -->
                 <div>
                     <label for="nameInput" class="block text-xs font-bold text-paw-darkest mb-1.5">
@@ -148,7 +148,7 @@
                 <!-- Tombol Aksi -->
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <a href="{{ route('pets.show', $pet->id) }}"
-                       class="px-5 py-2.5 rounded-full bg-white hover:bg-paw-sage/30 border border-paw-medium/25 text-paw-darkest text-xs font-semibold transition">
+                       class="px-5 py-2.5 rounded-full bg-white border border-paw-medium/30 hover:border-paw-medium text-paw-darkest text-xs font-semibold transition">
                         Batal
                     </a>
                     <button type="submit"
