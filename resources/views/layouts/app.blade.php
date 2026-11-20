@@ -65,8 +65,8 @@
                         <span>My Pets</span>
                     </a>
 
-                    <a href="#"
-                       class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:bg-white/10 transition">
+                    <a href="{{ route('health-records.index') }}"
+                       class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-sm font-medium transition {{ request()->routeIs('health-records.*') ? 'bg-paw-light text-paw-darkest font-semibold shadow-sm' : 'text-white/90 hover:bg-white/10' }}">
                         <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i>
                         <span>Health Records</span>
                     </a>

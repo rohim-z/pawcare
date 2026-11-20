@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\HealthRecordController;
 
 // Jika user membuka halaman utama langsung diarahkan ke halaman login
 Route::get('/', function () {
@@ -25,10 +26,11 @@ Route::middleware('auth')->group(function () {
     
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->middleware('auth')
         ->name('dashboard');
 
     // my pets
-    Route::resource('pets', PetController::class)->middleware('auth');
+    Route::resource('pets', PetController::class);
 
+    // health records
+    Route::resource('health-records', HealthRecordController::class)->except(['show']);
 });
