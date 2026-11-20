@@ -9,7 +9,7 @@
             <h1 class="font-heading text-3xl md:text-4xl font-extrabold text-paw-darkest tracking-tight">My Pets</h1>
             <p class="text-xs md:text-sm text-paw-medium mt-1">Kelola profil dan data dasar hewan peliharaanmu.</p>
         </div>
-        <a href="{{ route('pets.create') }}" class="inline-flex items-center gap-2 bg-paw-medium hover:bg-paw-dark text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shrink-0 self-start sm:self-auto">
+        <a href="{{ route('pets.create') }}" class="inline-flex items-center gap-2 bg-paw-medium hover:bg-paw-dark text-white text-xs font-semibold px-4 py-2.5 rounded-full transition shrink-0 self-start sm:self-auto">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Tambah Hewan</span>
         </a>
@@ -33,7 +33,7 @@
             </div>
             <h2 class="font-heading text-base font-bold text-paw-darkest">Belum ada hewan peliharaan</h2>
             <p class="text-xs text-paw-medium mt-1 max-w-md mx-auto">Tambahkan profil kucing, anjing, atau hewan kesayanganmu untuk mulai mencatat jadwal dan kesehatannya.</p>
-            <a href="{{ route('pets.create') }}" class="inline-flex items-center gap-2 bg-paw-medium hover:bg-paw-dark text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition mt-4">
+            <a href="{{ route('pets.create') }}" class="inline-flex items-center gap-2 bg-paw-medium hover:bg-paw-dark text-white text-xs font-semibold px-4 py-2.5 rounded-full transition mt-4">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 <span>Tambah Hewan Pertama</span>
             </a>
