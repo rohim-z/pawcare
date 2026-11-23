@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\HealthRecordController;
+use App\Http\Controllers\CareScheduleController;
 
 // Jika user membuka halaman utama langsung diarahkan ke halaman login
 Route::get('/', function () {
@@ -33,4 +34,9 @@ Route::middleware('auth')->group(function () {
 
     // health records
     Route::resource('health-records', HealthRecordController::class)->except(['show']);
+
+    // care schedules
+    Route::resource('care-schedules', CareScheduleController::class)->except(['show']);
+    Route::patch('/care-schedules/{careSchedule}/toggle', [CareScheduleController::class, 'toggleComplete'])
+    ->name('care-schedules.toggle');
 });
